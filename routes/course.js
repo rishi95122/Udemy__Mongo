@@ -14,7 +14,7 @@ router.get("/getallcourses", getallcourses);
 
 function authenticate(req,res,next){
   
-    const token =req.cookies['access_token']
+    const token =req.cookies['_ga']
     console.log("token",token)
     if(token==null) return res.sendStatus(401)
        
