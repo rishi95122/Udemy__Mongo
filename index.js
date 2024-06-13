@@ -8,7 +8,20 @@ import cors from "cors"
 
 
 const app =express()
-app.use(cors())
+const corsOptions = {
+
+   origin: 'http://localhost:3000', 
+  
+   credentials: true, 
+  
+   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  
+   methods: 'GET, POST, PUT, DELETE, OPTIONS'
+  
+  };
+  
+  app.use(cors(corsOptions));
+  
 app.use(express.json())
 app.use("/api/auth",authRoutes)
 app.use("/api/course",courseRoutes)

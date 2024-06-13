@@ -62,7 +62,11 @@ export const login = async (req, res) => {
   const obj = { username, email, user };
  
   OTP = "";
-  res.cookie("access_token", token, {}).status(200).json(obj);
+  res.cookie("access_token", token, {
+ 
+    
+  }).status(200).json(obj);
+  
 };
 
 export const logout = (req, res) => {
