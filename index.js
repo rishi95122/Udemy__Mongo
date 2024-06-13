@@ -10,7 +10,7 @@ import cors from "cors"
 const app =express()
 const corsOptions = {
 
-   origin: 'http://localhost:3000', 
+   origin: 'https://udemy-frontend.vercel.app', 
   
    credentials: true, 
   
@@ -20,7 +20,7 @@ const corsOptions = {
   
   };
   
-  app.use(cors());
+  app.use(cors(corsOptions));
   
 app.use(express.json())
 app.use("/api/auth",authRoutes)
