@@ -64,7 +64,7 @@ export const login = async (req, res) => {
  
   OTP = "";
   res.cookie("access_token", token, {
- 
+ httpOnly:true
     
   }).status(200).json(obj);
   
