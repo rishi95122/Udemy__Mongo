@@ -1,6 +1,7 @@
 import express from "express"
 import jwt from "jsonwebtoken";
 import { add,get,addcourse,getcourses ,getcoursesBycategory,getallcourses} from "../contollers/course.js";
+import cookieParser from "cookie-parser";
 const router =express()
   
 router.post("/add", add);
@@ -12,8 +13,8 @@ router.get("/getallcourses", getallcourses);
 
 
 function authenticate(req,res,next){
-    const authHeader=req.headers["authorization"]
-    const token =authHeader && authHeader.split(' ')[1]
+  
+    const token =req.cookies['access_token']
     if(token==null) return res.sendStatus(401)
    
     jwt.verify(token,"jwtkey",(err,user)=>{
@@ -23,7 +24,6 @@ function authenticate(req,res,next){
      req.user=user
     next()
     })
-    
     }
 
 export default router; 

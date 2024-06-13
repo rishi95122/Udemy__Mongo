@@ -3,6 +3,7 @@ import authRoutes from "./routes/auth.js"
 import courseRoutes from "./routes/course.js"
 import chapterRoutes from "./routes/chapter.js"
 import cors from "cors"
+import cookieParser from "cookie-parser";
 
 
 
@@ -19,7 +20,7 @@ const corsOptions = {
    methods: 'GET, POST, PUT, DELETE, OPTIONS'
   
   };
-  
+  app.use(cookieParser())
   app.use(cors(corsOptions));
   
 app.use(express.json())
