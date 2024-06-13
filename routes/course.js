@@ -14,10 +14,10 @@ router.get("/getallcourses", getallcourses);
 
 function authenticate(req,res,next){
   
-    const token =req.cookies
+    const token =req.cookies['access_token']
     console.log("token",token)
     if(token==null) return res.sendStatus(401)
-        console.log("token",token)
+       
     jwt.verify(token,"jwtkey",(err,user)=>{
       console.log(err,
         "fds",user)
