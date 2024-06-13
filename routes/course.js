@@ -3,7 +3,8 @@ import jwt from "jsonwebtoken";
 import { add,get,addcourse,getcourses ,getcoursesBycategory,getallcourses} from "../contollers/course.js";
 import cookieParser from "cookie-parser";
 const router =express()
-  
+  const app=express()
+  app.use(cookieParser())
 router.post("/add", add);
 router.post("/get",authenticate, get);
 router.post("/addcourse", addcourse);
