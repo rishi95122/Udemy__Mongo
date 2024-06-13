@@ -58,6 +58,7 @@ export const login = async (req, res) => {
     if (!result) return res.status(401).send("Invalid Credentials");
   }
   const token = jwt.sign({ username: data.username }, "jwtkey");
+  console.log("login,tokern",token)
   const { username, email, user } = data;
   const obj = { username, email, user };
  
