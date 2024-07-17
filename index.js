@@ -11,7 +11,7 @@ import cookieParser from "cookie-parser";
 const app =express()
 const corsOptions = {
 
-   origin: '*', 
+   origin: 'https://udemy-frontend.vercel.app', 
   
    credentials: true, 
   
