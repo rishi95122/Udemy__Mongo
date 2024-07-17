@@ -1,6 +1,6 @@
 import express from "express"
 import jwt from "jsonwebtoken";
-import { add,get,addcourse,getcourses ,getcoursesBycategory,getallcourses} from "../contollers/course.js";
+import { add,get,addcourse,getcourses,deleteCourse,deleteCourseContent ,getcoursesBycategory,getallcourses} from "../contollers/course.js";
 import cookieParser from "cookie-parser";
 import Cookies from "cookies";
 const router =express()
@@ -11,6 +11,8 @@ router.post("/addcourse", addcourse);
 router.post("/getcourses", getcourses);
 router.post("/getcoursesBycategory", getcoursesBycategory);
 router.get("/getallcourses", getallcourses);
+router.post("/delete/:id", deleteCourse);
+router.post("/deletecoursecontent/:id", deleteCourseContent);
 
 
 function authenticate(req,res,next){

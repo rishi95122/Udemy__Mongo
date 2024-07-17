@@ -47,6 +47,7 @@ export const forgot = async (req, res) => {
     if (valid) return res.status(201).send("Password Updated");
   }
 };
+
 export const login = async (req, res) => {
   const data = await registerSchema.findOne({ email: req.body.email });
   if (data.otp != req.body.otp) return res.status(401).send("Invalid Otp");
@@ -58,16 +59,16 @@ export const login = async (req, res) => {
     if (!result) return res.status(401).send("Invalid Credentials");
   }
   const token = jwt.sign({ username: data.username }, "jwtkey");
-  console.log("login,tokern",token)
   const { username, email, user } = data;
   const obj = { username, email, user };
  
   OTP = "";
   res.cookie("access_token", token, {
-    httpOnly: true
-    
+    httpOnly: true,
+    expires: new Date(
+      Date.now() + 5 * 24 * 60 * 60 * 1000
+    ),
   }).status(200).json(obj);
-  
 };
 
 export const logout = (req, res) => {

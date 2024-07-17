@@ -10,6 +10,7 @@ export const addContent = async (req, res) => {
     { $push: { "chapters.$.content": { contentname: req.body.content }  } },{ upsert: true }
   );
 
+  return res.status(201).send("Added")
  
 };
 
