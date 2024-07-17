@@ -40,7 +40,7 @@ console.log(dup)
 };
 
 export const get = async (req, res) => {
-  const get = await teacherSchema.find({ username: req.user.username });
+  const get = await teacherSchema.find({ username: req.body.name });
 
   if (get) return res.status(200).json(get[0].courses);
   else {
