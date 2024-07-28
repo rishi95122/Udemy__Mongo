@@ -108,4 +108,6 @@ export const mail = async (req, res) => {
       }, 20000);
     }
   );
+
+  return res.status(200).json("sended")
 };
