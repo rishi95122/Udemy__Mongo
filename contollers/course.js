@@ -20,6 +20,7 @@ console.log(dup)
     {
       $push: {
         courses: {
+           username: req.body.username ,
           course: req.body.name,
           description: req.body.description,
           image: req.body.image,
@@ -77,8 +78,24 @@ export const getcourses = async (req, res) => {
   const getChapters = await courseChapterSchema.find({
     $and: [{ username: req.body.username, course: req.body.course }],
   });
-  if(getChapters.length>0)
+
+
+  if(getChapters?.length>0)
   return res.status(200).json(getChapters[0].chapters);
+};
+
+export const getcourseData = async (req, res) => {
+  // const getChapters = await courseChapterSchema.find({
+  //   $and: [{ username: req.body.username, course: req.body.course }],
+  // });
+  const getChapters = await teacherSchema.find({
+    $and: [{ username: req.body.username, 'courses.course': req.body.course }]
+  }).select("courses");
+
+  const result= getChapters[0]?.courses.filter((item)=>item.course==req.body.course)
+  console.log("result",result)
+  if(result)
+  return res.status(200).json(result[0]);
 };
 
 export const deleteCourseContent=async(req,res)=>{
@@ -112,10 +129,11 @@ export const getallcourses = async (req, res) => {
   const getall = await teacherSchema.find({});
   for (let i = 0; i < getall.length; i++) {
     getall[i].courses.map((obj) => {
+    
       data.push(obj);
     });
   }
-
+  console.log("data",data)
   if (data) return res.status(200).json(data);
   else return res.status(400).json("no daTA FOUND");
 };

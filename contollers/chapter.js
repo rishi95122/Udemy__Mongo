@@ -15,10 +15,11 @@ export const addContent = async (req, res) => {
 };
 
 export const getContent = async (req, res) => {
-const getcontent=await courseChapterSchema.find({username:req.body.username,course:req.body.course,"chapters.name":req.body.chapter},{"chapters":1,"_id":0})
+  
+const getcontent=await courseChapterSchema.find({username:req.body.username,course:req.body.course},{"chapters":1,"_id":0})
 const content=[]
-
-for(let i=0;i<getcontent[0].chapters.length;i++)
+console.log(getcontent)
+for(let i=0;i<getcontent[0]?.chapters.length;i++)
   {
    if(getcontent[0].chapters[i].name==req.body.chapter)
 {

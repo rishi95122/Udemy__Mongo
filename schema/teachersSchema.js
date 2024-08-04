@@ -4,11 +4,13 @@ import mongoose from "mongoose"
 const courseSchema = new mongoose.Schema({
     course: {
         type: String,
-        required: true
+        required: true,
+        trim:true
     },
     description: {
         type: String,
-        required: true
+        required: true,
+        trim:true
     },
     image: {
         type: String,
@@ -23,7 +25,8 @@ const courseSchema = new mongoose.Schema({
 const teachers = new mongoose.Schema({
     username: {
         type: String,
-        required: true
+        required: true,
+        trim:true
     },
     courses: [courseSchema]
 });
