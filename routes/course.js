@@ -3,34 +3,19 @@ import jwt from "jsonwebtoken";
 import { add,get,addcourse,getcourses,deleteCourse,deleteCourseContent ,getcoursesBycategory,getallcourses, getcourseData} from "../contollers/course.js";
 import cookieParser from "cookie-parser";
 import Cookies from "cookies";
+import protectRoute from "../middleware/protectRoute.js";
 const router =express()
  
-router.post("/add", add);
-router.post("/get", get);
-router.post("/addcourse", addcourse);
-router.post("/getcourses", getcourses);
+router.post("/add",protectRoute, add);
+router.post("/get",protectRoute, get);
+router.post("/addcourse",protectRoute, addcourse);
+router.post("/getcourses",protectRoute, getcourses);
 router.post("/getcoursesBycategory", getcoursesBycategory);
-router.get("/getallcourses", getallcourses);
-router.post("/delete/:id", deleteCourse);
-router.post("/deletecoursecontent/:id", deleteCourseContent);
+router.get("/getallcourses",protectRoute, getallcourses);
+router.post("/delete/:id",protectRoute, deleteCourse);
+router.post("/deletecoursecontent/:id",protectRoute, deleteCourseContent);
 router.post("/getCourseData", getcourseData);
 
 
-function authenticsate(req,res,next){
-    const cookies = new Cookies(req, res);
-
-    const token =req.cookies['access_token']
-    console.log("token",cookies.get("access_token'"))
-    if(token==null) return res.sendStatus(401)
-       
-    jwt.verify(token,"jwtkey",(err,user)=>{
-      console.log(err,
-        "fds",user)
-        if(err) return res.sendStatus(403)
-       
-     req.user=user
-    next()
-    })
-    }
 
 export default router; 

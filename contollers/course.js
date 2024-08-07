@@ -2,11 +2,11 @@
 import teacherSchema from "../schema/teachersSchema.js";
 import courseChapterSchema from "../schema/coursesChapterSchema.js";
 export const add = async (req, res) => {
-  console.log("sd",req.body)
+ const {username}=req.username
   const dup = await teacherSchema.find({
     $and: [
       {
-        username: req.body.username,
+        username: username,
         "courses.course": req.body.name,
       },
     ],
@@ -16,11 +16,11 @@ console.log(dup)
     return res.status(401).send("Course with same name already added");
 
   const add = await teacherSchema.updateOne(
-    { username: req.body.username },
+    { username: username },
     {
       $push: {
         courses: {
-           username: req.body.username ,
+           username: username ,
           course: req.body.name,
           description: req.body.description,
           image: req.body.image,
@@ -41,7 +41,8 @@ console.log(dup)
 };
 
 export const get = async (req, res) => {
-  const get = await teacherSchema.find({ username: req.body.name });
+  const {username}=req.username
+  const get = await teacherSchema.find({ username: username});
 
   if (get) return res.status(200).json(get[0].courses);
   else {
@@ -50,10 +51,11 @@ export const get = async (req, res) => {
 };
 
 export const addcourse = async (req, res) => {
+  const {username}=req.username
   const dup = await courseChapterSchema.find({
     $and: [
       {
-        username: req.body.username,
+        username: username,
         course: req.body.course,
         "chapters.name": req.body.name,
       },
@@ -64,7 +66,7 @@ export const addcourse = async (req, res) => {
     return res.status(401).send("Chapter with same name already added");
 
   const addChapter = await courseChapterSchema.updateOne(
-    { username: req.body.username, course: req.body.course },
+    { username: username, course: req.body.course },
     { $push: { chapters: { name: req.body.name } } },
     { upsert: true }
   );
@@ -75,8 +77,9 @@ export const addcourse = async (req, res) => {
 };
 
 export const getcourses = async (req, res) => {
+  const {username}=req.username
   const getChapters = await courseChapterSchema.find({
-    $and: [{ username: req.body.username, course: req.body.course }],
+    $and: [{ username: username, course: req.body.course }],
   });
 
 
@@ -88,24 +91,27 @@ export const getcourseData = async (req, res) => {
   // const getChapters = await courseChapterSchema.find({
   //   $and: [{ username: req.body.username, course: req.body.course }],
   // });
+   const {username}=req.body
   const getChapters = await teacherSchema.find({
-    $and: [{ username: req.body.username, 'courses.course': req.body.course }]
+    
+    $and: [{ username: username, 'courses.course': req.body.course }]
   }).select("courses");
 
   const result= getChapters[0]?.courses.filter((item)=>item.course==req.body.course)
-  console.log("result",result)
+ 
   if(result)
   return res.status(200).json(result[0]);
 };
 
 export const deleteCourseContent=async(req,res)=>{
+  const {username}=req.username
   const id =req.params.id
   const remove = await courseChapterSchema.findOneAndUpdate(
-    { username: req.body.username, course: req.body.course },
+    { username:username, course: req.body.course },
     { $pull: { chapters: { _id: id } } },
     {returnDocument:'after'}
   );
-  console.log(remove)
+
  if(remove) return res.status(200).json(remove.chapters)
   else return res.status(400).json("error")
 }
@@ -133,15 +139,15 @@ export const getallcourses = async (req, res) => {
       data.push(obj);
     });
   }
-  console.log("data",data)
+
   if (data) return res.status(200).json(data);
   else return res.status(400).json("no daTA FOUND");
 };
 export const deleteCourse = async (req, res) => {
  const id = req.params.id
- console.log(req.body,id)
+ const {username}=req.username
  const del = await teacherSchema.findOneAndUpdate(
-  { username: req.body.name },
+  { username: username },
   {
     $pull: {
       courses: {

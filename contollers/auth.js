@@ -49,7 +49,9 @@ export const forgot = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+
   const data = await registerSchema.findOne({ email: req.body.email });
+
   if (data.otp != req.body.otp) return res.status(401).send("Invalid Otp");
   else {
     const result = await registerSchema.findOne({
@@ -63,23 +65,31 @@ export const login = async (req, res) => {
   const obj = { username, email, user };
  
   OTP = "";
-  res.cookie("access_token", token, {
-    httpOnly: true,
-    expires: new Date(
-      Date.now() + 5 * 24 * 60 * 60 * 1000
-    ),
-  }).status(200).json(obj);
+ 
+	res.cookie("access_token", token, {
+		maxAge: 15 * 24 * 60 * 60 * 1000,
+		httpOnly:true,
+		secure:true,
+		sameSite: 'None'
+	});
+	
+	return res.status(200).json(obj);
 };
 
-export const logout = (req, res) => {
-  res
-    .clearCookie("access_token", {
-      sameSite: "none",
-      secure: true,
-    })
-    .status(200)
-    .json("User has been logged out");
+export const logout = async (req, res) => {
+	console.log("jdgfet",req.cookies.access_token)
+	try {
+			res.clearCookie("access_token", {
+		httpOnly:true,
+		secure:true,
+		sameSite: 'None'});
+		res.status(200).json({ message: "Logged out successfully" });
+	} catch (error) {
+		console.log("Error in logout controller", error.message);
+		res.status(500).json({ error: "Internal Server Error" });
+	}
 };
+
 
 export const mail = async (req, res) => {
   const result = await registerSchema.findOne({ email: req.body.email });
@@ -111,3 +121,10 @@ export const mail = async (req, res) => {
 
   return res.status(200).json("sended")
 };
+
+export const getme= async(req,res)=>{
+
+  const {username} =req.username
+  const data = await registerSchema.find({username:username}).select("-password")
+  return res.status(200).json(data[0])
+}
