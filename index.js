@@ -11,7 +11,7 @@ import cookieParser from "cookie-parser";
 const app =express()
 const corsOptions = {
 
-   origin: 'http://localhost:3000', 
+   origin: 'https://ccourses.vercel.app', 
   
    credentials: true, 
   
