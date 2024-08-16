@@ -44,9 +44,9 @@ export const get = async (req, res) => {
   const {username}=req.username
   const get = await teacherSchema.find({ username: username});
 
-  if (get) return res.status(200).json(get[0].courses);
+  if (get[0]) return res.status(200).json(get[0]?.courses);
   else {
-    res.status(401).json("error in get courses");
+   return res.status(401).json({msg:"No Courses Found"});
   }
 };
 
@@ -77,12 +77,12 @@ export const addcourse = async (req, res) => {
 };
 
 export const getcourses = async (req, res) => {
-  const {username}=req.username
+  const username=req.body.username
+  console.log(req.body)
   const getChapters = await courseChapterSchema.find({
     $and: [{ username: username, course: req.body.course }],
   });
-
-
+  console.log(username)
   if(getChapters?.length>0)
   return res.status(200).json(getChapters[0].chapters);
 };
