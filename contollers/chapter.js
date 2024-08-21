@@ -1,9 +1,13 @@
 import courseChapterSchema from "../schema/coursesChapterSchema.js";
 
 export const addContent = async (req, res) => {
+  let {course}=req.body
+ 
+  course= course.split('=')[0]
+  console.log(course)
   const addcontent = await courseChapterSchema.updateOne(
     {
-      course: req.body.course,
+      course: course,
       username: req.body.username,
       "chapters.name": req.body.chapter,
     },

@@ -52,6 +52,7 @@ export const get = async (req, res) => {
 
 export const addcourse = async (req, res) => {
   const {username}=req.username
+ 
   const dup = await courseChapterSchema.find({
     $and: [
       {
@@ -64,7 +65,7 @@ export const addcourse = async (req, res) => {
 
   if (dup.length > 0)
     return res.status(401).send("Chapter with same name already added");
-
+  console.log("DASD",username,req.body)
   const addChapter = await courseChapterSchema.updateOne(
     { username: username, course: req.body.course },
     { $push: { chapters: { name: req.body.name } } },
