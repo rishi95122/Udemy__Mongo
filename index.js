@@ -13,7 +13,7 @@ import fs from "fs";
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "https://ccourses.vercel.app",
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
