@@ -132,18 +132,35 @@ export const getcoursesBycategory = async (req, res) => {
 };
 
 export const getallcourses = async (req, res) => {
-  const data = [];
-  const getall = await teacherSchema.find({});
-  for (let i = 0; i < getall.length; i++) {
-    getall[i].courses.map((obj) => {
-    
-      data.push(obj);
-    });
-  }
+  try {
+    const search = req.query.search || ""; 
+    const data = [];
 
-  if (data) return res.status(200).json(data);
-  else return res.status(400).json("no daTA FOUND");
+  
+    const teachers = await teacherSchema.find({});
+    for (let i = 0; i < teachers.length; i++) {
+      teachers[i].courses.forEach((course) => {
+        data.push(course);
+      });
+    }
+   
+    const filteredData = data.filter((course) =>
+      course.course && course.course.toLowerCase().includes(search.toLowerCase())
+    );
+console.log(filteredData)
+    if (filteredData.length > 0) {
+
+      return res.status(200).json(filteredData);
+    } else {
+      return res.status(404).json({ message: "No courses found matching the search criteria." });
+    }
+  } catch (error) {
+    console.error("Error fetching courses:", error.message || error);
+    return res.status(500).json({ error: "An error occurred while fetching courses." });
+  }
 };
+
+
 export const deleteCourse = async (req, res) => {
  const id = req.params.id
  const {username}=req.username

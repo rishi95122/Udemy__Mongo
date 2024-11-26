@@ -11,7 +11,7 @@ router.post("/get",protectRoute, get);
 router.post("/addcourse",protectRoute, addcourse);
 router.post("/getcourses",protectRoute, getcourses);
 router.post("/getcoursesBycategory", getcoursesBycategory);
-router.get("/getallcourses",protectRoute, getallcourses);
+router.get("/getallcourses", getallcourses);
 router.post("/delete/:id",protectRoute, deleteCourse);
 router.post("/deletecoursecontent/:id",protectRoute, deleteCourseContent);
 router.post("/getCourseData", getcourseData);
